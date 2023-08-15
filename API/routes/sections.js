@@ -9,10 +9,8 @@ router.get("/", async (req, res) => {
         if (limit > 100) {
             limit = 100;
         }
-        const departmentsearch = req.query.departmentsearch || "";
-        const coursesearch = req.query.coursesearch || "";
-        const sectionsearch = req.query.sectionsearch || "";
-        const professorsearch = req.query.professorsearch || "";
+        let search = req.query.search || "";
+        req.query.search ? (search = req.query.search.split(",")) : (search = ["department"]);
         let sort = req.query.sort || "department";
         req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
 
@@ -22,24 +20,35 @@ router.get("/", async (req, res) => {
         sort[1] ? sortBy[sort[5]] = sort[5] : sortBy[sort[4]] = "asc";
         sort[1] ? sortBy[sort[7]] = sort[7] : sortBy[sort[6]] = "asc";
 
+        let findBy = [];
+        console.log(findBy)
+        search[1] ? search0 = search[0] : search0 = 'department';
+        search[3] ? search1 = search[2] : search1 = 'course';
+        search[5] ? search2 = search[4] : search2 = 'section';
+        search[7] ? search3 = search[6] : search3 = 'professor';
+        
+        if (search[1]) {
+            findBy[0] = {[`${search0}`] : {$regex: search[1], $options: "i"}}
+        }
+        if (search[3]) {
+            findBy[1] = {[`${search1}`]: {$regex: search[3], $options: "i"}}
+        }
+        if (search[5]) {
+            findBy[2] = {[`${search2}`] : {$regex: search[5], $options: "i"}}
+        }
+        if (search[7]) {
+            findBy[3] = {[`${search3}`] : {$regex: search[7], $options: "i"}}
+        }
+        console.log(findBy)
+
         const sections = await Section.find(
-            {$and : [
-                { department: {$regex: departmentsearch, $options: "i"} },
-                { course: {$regex: coursesearch, $options: "i"} },
-                { section: {$regex: sectionsearch, $options: "i"} },
-                { professor: {$regex: professorsearch, $options: "i"} },
-            ]})
+            {$and : findBy})
             .sort(sortBy)
             .skip(page * limit)
             .limit(limit)
 
         const total = await Section.countDocuments(
-            {$and : [
-                { department: {$regex: departmentsearch, $options: "i"} },
-                { course: {$regex: coursesearch, $options: "i"} },
-                { section: {$regex: sectionsearch, $options: "i"} },
-                { professor: {$regex: professorsearch, $options: "i"} },
-        ]})
+            {$and : findBy})
 
         const response = {
             error: false,
