@@ -20,13 +20,13 @@ router.get("/", async (req, res) => {
             sortBy[sort[0]] = "asc";
         }
 
-        const sections = await Section.find({ Section: {$regex: search, $options: "i"} })
+        const sections = await Section.find({ department: {$regex: search, $options: "i"} })
         .sort(sortBy)
         .skip(page * limit)
         .limit(limit)
 
         const total = await Section.countDocuments({
-            section: { $regex: search, $options: "i" }
+            department: { $regex: search, $options: "i" }
         })
 
         const response = {

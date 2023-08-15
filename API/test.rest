@@ -1,4 +1,3 @@
-http://localhost:8080/sections?page=2&limit=6&sort=professor
-
+http://localhost:8080/sections?page=2&limit=22&search=AE
 
 
