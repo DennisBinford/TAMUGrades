@@ -25,10 +25,9 @@ router.get("/", async (req, res) => {
         search[3] ? search1 = search[2] : search1 = 'course';
         search[5] ? search2 = search[4] : search2 = 'section';
         search[7] ? search3 = search[6] : search3 = 'professor';
-        
-        if (search[1]) {
-            findBy[0] = {[`${search0}`] : {$regex: search[1], $options: "i"}}
-        }
+
+        search[1] ? findBy[0] = {[`${search0}`] : {$regex: search[1], $options: "i"}} : findBy = [{'department' : {$regex: '', $options: "i"}}]
+    
         if (search[3]) {
             findBy[1] = {[`${search1}`]: {$regex: search[3], $options: "i"}}
         }
@@ -39,13 +38,17 @@ router.get("/", async (req, res) => {
             findBy[3] = {[`${search3}`] : {$regex: search[7], $options: "i"}}
         }
 
+        console.log(findBy)
+
+
 
         const sections = await Section.find(
             {$and : findBy})
             .sort(sortBy)
             .skip(page * limit)
             .limit(limit)
-
+        
+        console.log(sections)
         const total = await Section.countDocuments(
             {$and : findBy})
 
