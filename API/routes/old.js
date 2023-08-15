@@ -1,5 +1,5 @@
-
 const router = require("express").Router();
+const section = require("../models/section");
 const Section = require("../models/section");
 
 router.get("/", async (req, res) => {
@@ -10,12 +10,12 @@ router.get("/", async (req, res) => {
             limit = 100;
         }
         const departmentsearch = req.query.departmentsearch || "";
-        const coursesearch = req.query.coursesearch || "";
-        const sectionsearch = req.query.sectionsearch || "";
-        const professorsearch = req.query.professorsearch || "";
+        const coursesearch = req.query.departmentsearch || "";
+        const sectionsearch = req.query.departmentsearch || "";
+        const professorsearch = req.query.departmentsearch || "";
         let sort = req.query.sort || "department";
         req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
-        console.log(sort);
+        req.query.search ? (search = req.query.search.split(",")) : (search = [search]);
 
         let sortBy = {};
         if(sort[1]) {
@@ -24,8 +24,8 @@ router.get("/", async (req, res) => {
             sortBy[sort[0]] = "asc";
         }
 
-        const sections = await Section.find(
-            {$and : [
+        sections = await Section.find({ 
+            $and : [
                 { department: {$regex: departmentsearch, $options: "i"} },
                 { course: {$regex: coursesearch, $options: "i"} },
                 { section: {$regex: sectionsearch, $options: "i"} },
@@ -35,13 +35,9 @@ router.get("/", async (req, res) => {
             .skip(page * limit)
             .limit(limit)
 
-        const total = await Section.countDocuments(
-            {$and : [
-                { department: {$regex: departmentsearch, $options: "i"} },
-                { course: {$regex: coursesearch, $options: "i"} },
-                { section: {$regex: sectionsearch, $options: "i"} },
-                { professor: {$regex: professorsearch, $options: "i"} },
-        ]})
+        const total = await Section.countDocuments({
+            department: { $regex: search, $options: "i" }
+        })
 
         const response = {
             error: false,
@@ -59,4 +55,3 @@ router.get("/", async (req, res) => {
 });
 
 module.exports = router;
-
