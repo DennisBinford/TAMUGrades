@@ -15,29 +15,12 @@ router.get("/", async (req, res) => {
         const professorsearch = req.query.professorsearch || "";
         let sort = req.query.sort || "department";
         req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
-        console.log(sort);
 
         let sortBy = {};
-        if(sort[1]) {
-            sortBy[sort[0]] = sort[1];
-        } else {
-            sortBy[sort[0]] = "asc";
-        }
-        if(sort[3]) {
-            sortBy[sort[2]] = sort[3];
-        } else {
-            sortBy[sort[2]] = "asc";
-        }
-        if(sort[5]) {
-            sortBy[sort[4]] = sort[5];
-        } else {
-            sortBy[sort[4]] = "asc";
-        }
-        if(sort[7]) {
-            sortBy[sort[6]] = sort[7];
-        } else {
-            sortBy[sort[6]] = "asc";
-        }
+        sort[1] ? sortBy[sort[0]] = sort[1] : sortBy[sort[0]] = "asc";
+        sort[3] ? sortBy[sort[2]] = sort[3] : sortBy[sort[2]] = "asc";
+        sort[1] ? sortBy[sort[5]] = sort[5] : sortBy[sort[4]] = "asc";
+        sort[1] ? sortBy[sort[7]] = sort[7] : sortBy[sort[6]] = "asc";
 
         const sections = await Section.find(
             {$and : [
