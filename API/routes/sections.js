@@ -21,7 +21,6 @@ router.get("/", async (req, res) => {
         sort[1] ? sortBy[sort[7]] = sort[7] : sortBy[sort[6]] = "asc";
 
         let findBy = [];
-        console.log(findBy)
         search[1] ? search0 = search[0] : search0 = 'department';
         search[3] ? search1 = search[2] : search1 = 'course';
         search[5] ? search2 = search[4] : search2 = 'section';
@@ -39,7 +38,7 @@ router.get("/", async (req, res) => {
         if (search[7]) {
             findBy[3] = {[`${search3}`] : {$regex: search[7], $options: "i"}}
         }
-        console.log(findBy)
+
 
         const sections = await Section.find(
             {$and : findBy})
@@ -58,9 +57,9 @@ router.get("/", async (req, res) => {
             sections
         }
 
-        res.status(200).json(response)
+        total === 0 ? res.status(404).json({error: true, message: "No Section Found"}) : res.status(200).json(response)
+
     } catch (err) {
-        console.log(err);
         res.status(500).json({error: true, message: "Internal Server Error"});
     }
 });
