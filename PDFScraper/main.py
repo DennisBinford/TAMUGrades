@@ -3,7 +3,7 @@ import glob
 import time
 
 from Utils.databaselink import MONGODB_URI
-from Utils.constants import SECTION_PATTERN, MONGODB_URI, DATABASE_NAME, PROCESS_FILE_PATH, SAVE_FILE_PATH, FAIL_FILE_PATH, START_TIME, VALID_SEMESTERS, VALID_YEARS
+from Utils.constants import SECTION_PATTERN, DATABASE_NAME, PROCESS_FILE_PATH, START_TIME, VALID_SEMESTERS, VALID_YEARS
 from Utils.pymongo import get_mongodb_collection
 from Utils.parsing import *
 
