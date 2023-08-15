@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react'
 import useSectionSearch from './useSectionSearch'
 
 export default function App() {
-  const [query, setQuery] = useState('')
+  const [departmentSearch, setDepartmentSearch] = useState('')
   const [pageNumber, setPageNumber] = useState(1)
 
   const {
@@ -10,7 +10,7 @@ export default function App() {
     hasMore,
     loading,
     error
-  } = useSectionSearch(query, pageNumber)
+  } = useSectionSearch(departmentSearch, pageNumber)
 
   const observer = useRef()
   const lastSectionElementRef = useCallback(node => {
@@ -25,13 +25,13 @@ export default function App() {
   }, [loading, hasMore])
 
   function handleSearch(e) {
-    setQuery(e.target.value)
+    setDepartmentSearch(e.target.value)
     setPageNumber(1)
   }
 
   return (
     <>
-      <input type="text" value={query} onChange={handleSearch}></input>
+      <input type="text" value={departmentSearch} onChange={handleSearch}></input>
       {sections.map((section, index) => {
         if (sections.length === index + 1) {
           return <div ref={lastSectionElementRef} key={section}>{section}</div>

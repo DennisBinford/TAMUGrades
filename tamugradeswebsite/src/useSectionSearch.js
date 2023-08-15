@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-export default function useSectionSearch(query, pageNumber) {
+export default function useSectionSearch(departmentSearch, pageNumber) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const [departments, setDepartments] = useState([])
+  const [courses, setCourses] = useState([])
   const [sections, setSections] = useState([])
   const [hasMore, setHasMore] = useState(false)
 
   useEffect(() => {
     setSections([])
-  }, [query])
+  }, [departmentSearch])
 
   useEffect(() => {
     setLoading(true)
@@ -17,21 +19,21 @@ export default function useSectionSearch(query, pageNumber) {
     let cancel
     axios({
       method: 'GET',
-      url: 'http://openlibrary.org/search.json',
-      params: { q: query, page: pageNumber },
+      url: 'https://api.tamugrades.com/sections',
+      params: { search: `department,${departmentSearch}`, page: pageNumber },
       cancelToken: new axios.CancelToken(c => cancel = c)
     }).then(res => {
       setSections(prevSections => {
-        return [...new Set([...prevSections, ...res.data.docs.map(sec => sec.title)])]
+        return [...prevSections, ...res.data.sections.map(sec => sec.course)]
       })
-      setHasMore(res.data.docs.length > 0)
+      setHasMore(res.data.total - (res.data.page * res.data.limit) > 0)
       setLoading(false)
     }).catch(e => {
       if (axios.isCancel(e)) return
       setError(true)
     })
     return () => cancel()
-  }, [query, pageNumber])
+  }, [departmentSearch, pageNumber])
 
   return { loading, error, sections, hasMore }
 }
