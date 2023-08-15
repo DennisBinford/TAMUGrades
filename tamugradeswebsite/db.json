@@ -1,0 +1,428 @@
+{
+    "error": false,
+    "total": 103,
+    "page": 1,
+    "limit": 20,
+    "sections": [
+      {
+        "_id": "ECEN661600SPRING2012EN",
+        "department": "ECEN",
+        "course": "661",
+        "semester": "SPRING",
+        "year": "2012",
+        "section": "600",
+        "professor": "MILLER S",
+        "grades": [
+          2,
+          2,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214504FALL2012EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2012",
+        "section": "504",
+        "professor": "MILLER S",
+        "grades": [
+          4,
+          5,
+          5,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214505FALL2012EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2012",
+        "section": "505",
+        "professor": "MILLER S",
+        "grades": [
+          5,
+          6,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "_id": "ECEN214506FALL2012EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2012",
+        "section": "506",
+        "professor": "MILLER S",
+        "grades": [
+          4,
+          5,
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214200SPRING2013EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "SPRING",
+        "year": "2013",
+        "section": "200",
+        "professor": "MILLER S",
+        "grades": [
+          5,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214513SPRING2013EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "SPRING",
+        "year": "2013",
+        "section": "513",
+        "professor": "MILLER S",
+        "grades": [
+          5,
+          7,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214514SPRING2013EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "SPRING",
+        "year": "2013",
+        "section": "514",
+        "professor": "MILLER S",
+        "grades": [
+          4,
+          8,
+          2,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214515SPRING2013EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "SPRING",
+        "year": "2013",
+        "section": "515",
+        "professor": "MILLER S",
+        "grades": [
+          5,
+          9,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214504FALL2013EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2013",
+        "section": "504",
+        "professor": "MILLER S",
+        "grades": [
+          4,
+          5,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214505FALL2013EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2013",
+        "section": "505",
+        "professor": "MILLER S",
+        "grades": [
+          4,
+          3,
+          5,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214506FALL2013EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2013",
+        "section": "506",
+        "professor": "MILLER S",
+        "grades": [
+          2,
+          2,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "_id": "ECEN214200SPRING2014EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "SPRING",
+        "year": "2014",
+        "section": "200",
+        "professor": "MILLER S",
+        "grades": [
+          9,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214501SPRING2014EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "SPRING",
+        "year": "2014",
+        "section": "501",
+        "professor": "MILLER S",
+        "grades": [
+          7,
+          6,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214502SPRING2014EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "SPRING",
+        "year": "2014",
+        "section": "502",
+        "professor": "MILLER S",
+        "grades": [
+          3,
+          5,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          3,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214503SPRING2014EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "SPRING",
+        "year": "2014",
+        "section": "503",
+        "professor": "MILLER S",
+        "grades": [
+          1,
+          11,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN683600SPRING2014EN",
+        "department": "ECEN",
+        "course": "683",
+        "semester": "SPRING",
+        "year": "2014",
+        "section": "600",
+        "professor": "MILLER S",
+        "grades": [
+          6,
+          12,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214200FALL2014EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2014",
+        "section": "200",
+        "professor": "MILLER S",
+        "grades": [
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214501FALL2014EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2014",
+        "section": "501",
+        "professor": "MILLER S",
+        "grades": [
+          4,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214502FALL2014EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2014",
+        "section": "502",
+        "professor": "MILLER S",
+        "grades": [
+          3,
+          8,
+          1,
+          2,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "_id": "ECEN214503FALL2014EN",
+        "department": "ECEN",
+        "course": "214",
+        "semester": "FALL",
+        "year": "2014",
+        "section": "503",
+        "professor": "MILLER S",
+        "grades": [
+          6,
+          6,
+          2,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  }
