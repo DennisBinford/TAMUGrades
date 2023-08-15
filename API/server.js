@@ -14,7 +14,7 @@ app.use("/sections", sectionRoutes);
 
 
 const port = process.env.port || 8080;
-app.listen(port, () => console.log('Listening on port'));
+app.listen(port, () => console.log(`Listening on port: ${port}`));
 
 
 
