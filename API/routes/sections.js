@@ -23,6 +23,21 @@ router.get("/", async (req, res) => {
         } else {
             sortBy[sort[0]] = "asc";
         }
+        if(sort[3]) {
+            sortBy[sort[2]] = sort[3];
+        } else {
+            sortBy[sort[2]] = "asc";
+        }
+        if(sort[5]) {
+            sortBy[sort[4]] = sort[5];
+        } else {
+            sortBy[sort[4]] = "asc";
+        }
+        if(sort[7]) {
+            sortBy[sort[6]] = sort[7];
+        } else {
+            sortBy[sort[6]] = "asc";
+        }
 
         const sections = await Section.find(
             {$and : [
