@@ -38,7 +38,6 @@ router.get("/", async (req, res) => {
             findBy[3] = {[`${search3}`] : {$regex: search[7], $options: "i"}}
         }
 
-        console.log(findBy)
 
 
 
@@ -48,7 +47,6 @@ router.get("/", async (req, res) => {
             .skip(page * limit)
             .limit(limit)
         
-        console.log(sections)
         const total = await Section.countDocuments(
             {$and : findBy})
 
