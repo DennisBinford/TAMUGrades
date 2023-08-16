@@ -57,7 +57,15 @@ router.get("/:department", async (req, res) => {
             sections
         }
 
-        total === 0 ? res.status(404).json({error: true, message: "No Section Found"}) : res.status(200).json(response)
+        if (total === 0) {
+            res.status(404).json({error: true, message: "No Section Found"})
+        }
+        else if ((total - (page+1) * limit) <= 0) {
+            res.status(404).json({error: true, message: "Page Out of Bounds"})
+        }
+        else {
+            res.status(200).json(response)
+        }
 
     } catch (err) {
         res.status(500).json({error: true, message: "Internal Server Error"});

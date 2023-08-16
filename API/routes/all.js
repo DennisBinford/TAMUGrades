@@ -4,11 +4,9 @@ const Section = require("../models/section");
 
 router.get("/", async (req, res) => {
     try {
-        const page = parseInt(req.query.page) - 1 || 0;
-        let limit = parseInt(req.query.limit) || 1000;
-        if (limit > 10000) {
-            limit = 10000;
-        }
+        const page = req.page
+        const limit = req.limit
+
         let search = req.query.search || "";
         req.query.search ? (search = req.query.search.split(",")) : (search = ["department"]);
         let sort = req.query.sort || "department";
@@ -60,7 +58,15 @@ router.get("/", async (req, res) => {
             sections
         }
 
-        total === 0 ? res.status(404).json({error: true, message: "No Section Found"}) : res.status(200).json(response)
+        if (total === 0) {
+            res.status(404).json({error: true, message: "No Section Found"})
+        }
+        else if ((total - (page+1) * limit) <= 0) {
+            res.status(404).json({error: true, message: "Page Out of Bounds"})
+        }
+        else {
+            res.status(200).json(response)
+        }
 
     } catch (err) {
         res.status(500).json({error: true, message: "Internal Server Error"});

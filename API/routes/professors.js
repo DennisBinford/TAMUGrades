@@ -4,21 +4,15 @@ const Section = require("../models/section");
 
 router.get("/:professor", async (req, res) => {
     try {
-        const page = parseInt(req.query.page) - 1 || 0;
-        let limit = parseInt(req.query.limit) || 100;
-        if (limit > 1000) {
-            limit = 1000;
-        }
+        let page = req.page
+        let limit = req.limit
 
         let findBy = {'professor' : req.params.professor.toUpperCase()};
-
-        console.log(findBy)
 
         const sections = await Section
             .find(findBy)
             .skip(page * limit)
             .limit(limit)
-        
         
         const total = await Section.countDocuments(findBy)
 
@@ -33,7 +27,15 @@ router.get("/:professor", async (req, res) => {
             sections
         }
 
-        total === 0 ? res.status(404).json({error: true, message: "No Section Found"}) : res.status(200).json(response)
+        if (total === 0) {
+            res.status(404).json({error: true, message: "No Section Found"})
+        }
+        else if ((total - (page+1) * limit) <= 0) {
+            res.status(404).json({error: true, message: "Page Out of Bounds"})
+        }
+        else {
+            res.status(200).json(response)
+        }
 
     } catch (err) {
         res.status(500).json({error: true, message: "Internal Server Error"});
