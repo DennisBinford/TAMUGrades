@@ -61,7 +61,7 @@ router.get("/", async (req, res) => {
         if (total === 0) {
             res.status(404).json({error: true, message: "No Section Found"})
         }
-        else if ((total - (page+2) * limit) <= 0) {
+        else if ((total - page * limit) <= 0) {
             res.status(404).json({error: true, message: "Page Out of Bounds"})
         }
         else {
