@@ -40,9 +40,12 @@ function App() {
       filter
       onFilter={(e) => {
         e.filters.department.value ? setDepartmentFilter(e.filters.department.value) : setDepartmentFilter('');
-        e.filters.section.value ? setCourseFilter(e.filters.course.value) : setCourseFilter('');
-        e.filters.course.value ? setDepartmentFilter(e.filters.section.value) : setSectionFilter('');
+        e.filters.course.value ? setCourseFilter(e.filters.course.value) : setCourseFilter('');
+        e.filters.section.value ? setDepartmentFilter(e.filters.section.value) : setSectionFilter('');
         e.filters.professor.value ? setProfessorFilter(e.filters.professor.value) : setProfessorFilter('');
+        console.log(e.filters);
+        console.log(departmentFilter);
+        console.log(courseFilter);
       }}
       globalFilterFields={['department', 'course', 'section', 'professor']}
       emptyMessage="No sections found."
