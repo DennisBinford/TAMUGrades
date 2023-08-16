@@ -15,10 +15,9 @@ function App() {
   })
 
   const [data, setData] = useState([]);
-  const [limitAmount, setLimitAmount] = useState(100);
 
   useEffect(()=>{
-      axios.get('https://api.tamugrades.com/all')
+      axios.get('https://api.tamugrades.com/sections')
       .then(response => {
           setData(response.data.sections)
       })
@@ -37,7 +36,7 @@ function App() {
 
       <DataTable value={data} sortMode="multiple" filters={filters}
       paginator
-      rows={limitAmount}
+      rows={10}
       rowsPerPageOptions={[5,10,25,50,100]}
       totalRecords={5}>
         <Column field="department" header="Department" sortable filters/>
