@@ -10,22 +10,25 @@ function App() {
 
 
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState(0);
   const [departmentFilter, setDepartmentFilter] = useState('');
   const [courseFilter, setCourseFilter] = useState('');
   const [sectionFilter, setSectionFilter] = useState('');
   const [professorFilter, setProfessorFilter] = useState('');
 
     useEffect(()=>{
-        axios.get(`http://localhost:8080/sections?search=department,${departmentFilter},course,${courseFilter},section,${sectionFilter},professor,${professorFilter}&limit=100`)
+        axios.get(`http://localhost:8080/sections?limit=100&search=department,${departmentFilter},course,${courseFilter},section,${sectionFilter},professor,${professorFilter}`)
         .then(response => {
-          console.log(response.data)
           setData(response.data.sections)
+          setTotal(response.data.total)
         })
-    }, [departmentFilter])
+        .catch(setData([]))
+    }, [departmentFilter, courseFilter, sectionFilter, professorFilter])
 
   return (
     <div className="App">
       <DataTable value={data} sortMode="multiple"
+      totalRecords={total}
       paginator
       rows={100}
       rowsPerPageOptions={[5,10,25,50,100]}
@@ -34,13 +37,21 @@ function App() {
       scrollable 
       scrollHeight="1000px"
       filterDisplay="row"
+      filter
+      onFilter={(e) => {
+        e.filters.department.value ? setDepartmentFilter(e.filters.department.value) : setDepartmentFilter('');
+        e.filters.section.value ? setCourseFilter(e.filters.course.value) : setCourseFilter('');
+        e.filters.course.value ? setDepartmentFilter(e.filters.section.value) : setSectionFilter('');
+        e.filters.professor.value ? setProfessorFilter(e.filters.professor.value) : setProfessorFilter('');
+      }}
       globalFilterFields={['department', 'course', 'section', 'professor']}
       emptyMessage="No sections found."
       >
-        <Column field="department" header="Department" sortable filter filterPlaceholder="AERO" style={{ minWidth: '12rem' }} />
-        <Column field="course" header="Course" sortable filter filterPlaceholder="201" style={{ minWidth: '12rem' }}/>
-        <Column field="section" header="Section" sortable filter filterPlaceholder="500" style={{ minWidth: '12rem' }}/>
-        <Column field="professor" header="Professor" sortable filter filterPlaceholder="Smith" style={{ minWidth: '12rem' }}/>
+        <Column field="department" header="Department" sortable filter filterMatchMode="contains" filterMaxLength={4} filterPlaceholder="AERO"
+        />
+        <Column field="course" header="Course" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="201"/>
+        <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"/>
+        <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"/>
         <Column field="grades.0" header="A" sortable/>
         <Column field="grades.1" header="B" sortable/>
         <Column field="grades.2" header="C" sortable/>
@@ -58,10 +69,3 @@ function App() {
 
 
 export default App;
-
-
-//<Column field="department" header="Department" sortable filters/>
-// <Column field="course" header="Course" sortable filters/>
-// <Column field="section" header="Section" sortable filters/>
-// <Column field="professor" header="Professor" sortable filters/>
-// </DataTable>
