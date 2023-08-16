@@ -10,18 +10,19 @@ router.get("/:professor", async (req, res) => {
             limit = 1000;
         }
 
-        let findBy = [{'professor' : {$regex: req.params.professor, $options: "i"}}];
+        let findBy = {'professor' : req.params.professor.toUpperCase()};
 
-        const sections = await Section.find(
-            {$and : findBy})
-            .sort(sortBy)
+        console.log(findBy)
+
+        const sections = await Section
+            .find(findBy)
             .skip(page * limit)
             .limit(limit)
         
-        const total = await Section.countDocuments(
-            {$and : findBy})
+        
+        const total = await Section.countDocuments(findBy)
 
-        const departments = await Section.distinct('department')
+        const departments = await Section.distinct('department', findBy)
 
         const response = {
             error: false,
