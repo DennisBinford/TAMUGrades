@@ -17,7 +17,8 @@ function App() {
   const [professorFilter, setProfessorFilter] = useState('');
 
     useEffect(()=>{
-        axios.get(`https://api.tamugrades.com?limit=1000&search=department,${departmentFilter},course,${courseFilter},section,${sectionFilter},professor,${professorFilter}`)
+        axios
+        .get(`https://api.tamugrades.com?limit=1000&department=${departmentFilter}&course=${courseFilter}&section=${sectionFilter}&professor=${professorFilter}`)
         .then(response => {
           setData(response.data.sections)
           setTotal(response.data.total)
