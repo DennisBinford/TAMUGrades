@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
     "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "install": "^0.13.0",
     "primereact": "^9.6.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "run": "^1.4.0",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.0"
+    "run": "^1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",

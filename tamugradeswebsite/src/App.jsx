@@ -8,7 +8,7 @@ import axios from 'axios';
 
 function App() {
 
-
+  const BASE_API_URL = "https://api.tamugrades.com"
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [departmentFilter, setDepartmentFilter] = useState('');
@@ -18,8 +18,9 @@ function App() {
 
     useEffect(()=>{
         axios
-        .get(`https://api.tamugrades.com?limit=1000&department=${departmentFilter}&course=${courseFilter}&section=${sectionFilter}&professor=${professorFilter}`)
+        .get(`${BASE_API_URL}?limit=1000&department=${departmentFilter}&course=${courseFilter}&section=${sectionFilter}&professor=${professorFilter}`)
         .then(response => {
+          response.data.sections.add_field = "added field"
           setData(response.data.sections)
           setTotal(response.data.total)
         })
@@ -30,7 +31,8 @@ function App() {
   try {
     return (
       <div className="App">
-        <DataTable value={data} sortMode="multiple"
+        <DataTable value={data} sortMode="multiple" tableStyle={{ minWidth: '120rem' }}
+        header="TAMUGrades"
         totalRecords={total}
         paginator
         rows={100}
@@ -41,31 +43,43 @@ function App() {
         scrollHeight="1000px"
         filterDisplay="row"
         filter
+        resizableColumns
+        // style={{ minWidth: '100rem' }}
+        // filterHeaderStyle={{ minWidth: '100rem' }}
         onFilter={(e) => {
           e.filters.department.value ? setDepartmentFilter(e.filters.department.value) : setDepartmentFilter('');
           e.filters.course.value ? setCourseFilter(e.filters.course.value) : setCourseFilter('');
           e.filters.section.value ? setDepartmentFilter(e.filters.section.value) : setSectionFilter('');
           e.filters.professor.value ? setProfessorFilter(e.filters.professor.value) : setProfessorFilter('');
-          console.log(e.filters);
-          console.log(departmentFilter);
-          console.log(courseFilter);
         }}
         globalFilterFields={['department', 'course', 'section', 'professor']}
         emptyMessage="No sections found."
         >
           <Column field="department" header="Department" sortable filter filterMatchMode="contains" filterMaxLength={4} filterPlaceholder="AERO"
+          style={{ width: '10%' }}
           />
-          <Column field="course" header="Course" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="201"/>
-          <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"/>
-          <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"/>
-          <Column field="grades.0" header="A" sortable/>
-          <Column field="grades.1" header="B" sortable/>
-          <Column field="grades.2" header="C" sortable/>
-          <Column field="grades.3" header="D" sortable/>
-          <Column field="grades.4" header="F" sortable/>
-          <Column field="grades.8" header="Q" sortable/>
-          <Column field="semester" header="Semester" sortable/>
-          <Column field="year" header="Year" sortable/>
+          <Column field="course" header="Course" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="201"
+          style={{ width: '10%' }}/>
+          <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"
+          style={{ width: '10%' }}/>
+          <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
+          style={{ width: '10%' }}/>
+          <Column field="grades.0" header="A" sortable
+          style={{ width: '5%' }}/>
+          <Column field="grades.1" header="B" sortable
+          style={{ width: '5%' }}/>
+          <Column field="grades.2" header="C" sortable
+          style={{ width: '5%' }}/>
+          <Column field="grades.3" header="D" sortable
+          style={{ width: '5%' }}/>
+          <Column field="grades.4" header="F" sortable
+          style={{ width: '5%' }}/>
+          <Column field="grades.8" header="Q" sortable
+          style={{ width: '5%' }}/>
+          <Column field="semester" header="Semester" sortable
+          style={{ width: '10%' }}/>
+          <Column field="year" header="Year" sortable
+          style={{ width: '10%' }}/>
         </DataTable>
 
 
