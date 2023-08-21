@@ -9,8 +9,6 @@ router.get("/:department", async (req, res) => {
         if (limit > 1000) {
             limit = 1000;
         }
-        let search = req.query.search || "";
-        req.query.search ? (search = req.query.search.split(",")) : (search = ["department"]);
         let sort = req.query.sort || "department";
         req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
 
@@ -20,41 +18,31 @@ router.get("/:department", async (req, res) => {
         sort[1] ? sortBy[sort[5]] = sort[5] : sortBy[sort[4]] = "asc";
         sort[1] ? sortBy[sort[7]] = sort[7] : sortBy[sort[6]] = "asc";
 
-        let findBy = [{'department' : {$regex: req.params.department, $options: "i"}}];
-        search[1] ? search1 = search[0] : search1 = 'course';
-        search[3] ? search2 = search[2] : search2 = 'section';
-        search[5] ? search3 = search[4] : search3 = 'professor';
+        let filterByDepartment = {'department' : {$regex: req.params.department, $options: "i"}};
 
-            
-        if (search[1]) {
-            findBy[2] = {[`${search1}`]: {$regex: search[1], $options: "i"}}
-        }
-    
-        if (search[3]) {
-            findBy[2] = {[`${search2}`]: {$regex: search[3], $options: "i"}}
-        }
-        if (search[5]) {
-            findBy[3] = {[`${search3}`] : {$regex: search[5], $options: "i"}}
-        }
-
-        const sections = await Section.find(
-            {$and : findBy})
+        const sections = await Section.find(filterByDepartment)
             .sort(sortBy)
             .skip(page * limit)
             .limit(limit)
         
-        const total = await Section.countDocuments(
-            {$and : findBy})
+        const total = await Section.countDocuments(filterByDepartment)
 
-        const courses = await Section.distinct('course', {department: req.params.department})
+        // const course_numbers = await Section.distinct('course', filterByDepartment)
+        let courses = await Section.aggregate([ 
+            { $unwind: "$grades" },
+            {$group: {_id: {department : "$department", course : "$course"}, numberofAs: {$sum:{ 
+                "$arrayElemAt": [ "$x", 2 ] 
+            }}, count: {$sum:1}}}]);
 
-        const response = {
+        console.log(courses)
+    
+
+        const response = { 
             error: false,
             total,
             page: page + 1,
-            limit,
-            courses,
-            sections
+            limit,  
+            courses
         }
 
         if (total === 0) {

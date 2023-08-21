@@ -31,7 +31,7 @@ function App() {
   try {
     return (
       <div className="App">
-        <DataTable value={data} sortMode="multiple" tableStyle={{ minWidth: '120rem' }}
+        <DataTable value={data} sortMode="multiple" tableStyle={{ minWidth: '100rem' }}
         header="TAMUGrades"
         totalRecords={total}
         paginator
@@ -56,30 +56,30 @@ function App() {
         emptyMessage="No sections found."
         >
           <Column field="department" header="Department" sortable filter filterMatchMode="contains" filterMaxLength={4} filterPlaceholder="AERO"
-          style={{ width: '10%' }}
+          style={{ width: '12%' }}
           />
           <Column field="course" header="Course" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="201"
-          style={{ width: '10%' }}/>
+          style={{ width: '12%' }}/>
           <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"
-          style={{ width: '10%' }}/>
+          style={{ width: '12%' }}/>
           <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
-          style={{ width: '10%' }}/>
+          style={{ width: '12%' }}/>
           <Column field="grades.0" header="A" sortable
-          style={{ width: '5%' }}/>
+          style={{ width: '4%' }}/>
           <Column field="grades.1" header="B" sortable
-          style={{ width: '5%' }}/>
+          style={{ width: '4%' }}/>
           <Column field="grades.2" header="C" sortable
-          style={{ width: '5%' }}/>
+          style={{ width: '4%' }}/>
           <Column field="grades.3" header="D" sortable
-          style={{ width: '5%' }}/>
+          style={{ width: '4%' }}/>
           <Column field="grades.4" header="F" sortable
-          style={{ width: '5%' }}/>
+          style={{ width: '4%' }}/>
           <Column field="grades.8" header="Q" sortable
-          style={{ width: '5%' }}/>
+          style={{ width: '4%' }}/>
           <Column field="semester" header="Semester" sortable
-          style={{ width: '10%' }}/>
+          style={{ width: '8%' }}/>
           <Column field="year" header="Year" sortable
-          style={{ width: '10%' }}/>
+          style={{ width: '8%' }}/>
         </DataTable>
 
 

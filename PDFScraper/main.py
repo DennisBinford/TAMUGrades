@@ -10,7 +10,7 @@ from Utils.parsing import *
 if __name__ == "__main__":
 
     collection = get_mongodb_collection(
-        "TAMUGrades", "Sections", MONGODB_URI)
+        "TAMUGrades", "Dev", MONGODB_URI)
     grade_pdfs = glob.glob(os.path.join(PROCESS_FILE_PATH, '*.pdf'))
     section_documents_list = []
     file_count = 0

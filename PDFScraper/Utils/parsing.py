@@ -147,7 +147,28 @@ def get_section_grades_list(section_tag_index, pdf_text, pdf_type="NEW"):
         U = int(pdf_text[section_tag_index+14])
         X = int(pdf_text[section_tag_index+15])
         Q = int(pdf_text[section_tag_index+16])
-    grades = [A, B, C, D, F, I, S, U, X, Q]
+    GPA = round((A * 4.0 + B * 3.0 + C * 2.0 + D * 1.0) / (A+B+C+D+F), 3) #FIXME: Polish this!
+    Q_percent = round(Q / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
+    A_percent = round(A / (A+B+C+D+F+I+S+U+X+Q) * 100, 2) 
+    AB_percent = round((A+B) / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
+    pass_percent = round((A+B+C) / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
+    grades = {
+        "A" : A,
+        "B" : B,
+        "C" : C,
+        "D" : D,
+        "F" : F,
+        "I" : I,
+        "S" : S,
+        "U" : U,
+        "X" : X,
+        "Q" : Q,
+        "GPA" : GPA,
+        "Q_drop_percentage" : Q_percent,
+        "A_percentage" : A_percent,
+        "B_and_above_percentage" : AB_percent,
+        "pass_percentage" : pass_percent
+    }
     return grades
 
 
