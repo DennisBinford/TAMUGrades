@@ -1,51 +1,24 @@
-import re
-from PyPDF2 import PdfReader
+def get_file_pattern(grade_file):
+    from Utils.constants import FILE_PATTERN
+    import re
+    file_pattern_match = re.search(FILE_PATTERN, grade_file)
+    file_pattern = file_pattern_match.group(0)
+    return file_pattern
 
-
-# FIXME: update this to have future years
-def get_semester_and_year(text, valid_semesters, valid_years, from_file_name=False, file_name=""):
-    if from_file_name:
-        year = file_name[0:4]
-        semester_indicator = file_name[4]
-        if semester_indicator == '1':
+def get_semester_year_college(file_pattern):
+    year = file_pattern[0:4]
+    college = file_pattern[5:7]
+    semester_number = file_pattern[4]
+    match semester_number:
+        case '1':
             semester = "SPRING"
-        elif semester_indicator == '2':
+        case '2':
             semester = "SUMMER"
-        elif semester_indicator == '3':
+        case '3':
             semester = "FALL"
-        else:
-            print(
-                "ALERT: semester indicator is not valid, the fifth number in the filename should be 1, 2, or 3")
-        return semester, year
-    #
-    if not isinstance(text, list) and not isinstance(text, str):
-        raise TypeError(
-            "Text passed to get semester and year must be a list or a string")
-    num_of_valid_semesters = 0
-    num_of_valid_years = 0
-    beginning_of_pdf_text = text[0:50]
-    for valid_semester in valid_semesters:
-        if valid_semester in beginning_of_pdf_text:
-            num_of_valid_semesters += 1
-            semester = valid_semester
-    if num_of_valid_semesters == 0:
-        print("No valid semester found in parsed text!")
-    elif num_of_valid_semesters > 1:
-        print("More than one valid semester found in parsed text!")
-    for valid_year in valid_years:
-        if valid_year in beginning_of_pdf_text:
-            num_of_valid_years += 1
-            year = valid_year
-    if num_of_valid_years == 0:
-        print("No valid year found in parsed text!")
-    elif num_of_valid_years > 1:
-        print("More than one valid year found in parsed text!")
-    return semester, year
-
-
-def is_section_tag(section_tag):
-    from Utils.constants import SECTION_PATTERN
-    return re.fullmatch(SECTION_PATTERN, section_tag)
+        case _:
+            print("Semester was not found in file name.")
+    return semester, year, college
 
 
 def valid_section_tag(section_tag):
@@ -160,7 +133,7 @@ def get_extra_grade_info(A, B, C, D, F, I, S, U, Q, X):
     return GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT
 
 
-def set_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
+def get_section_grades(section_tag_index, pdf_text, pdf_type="NEW"):
     A, B, C, D, F, I, S, U, Q, X = extract_grades_from_pdf(
         section_tag_index, pdf_text, pdf_type)
     GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT = get_extra_grade_info(
@@ -184,58 +157,48 @@ def set_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
     }
     return grades
 
-
-def get_section_tag_indices_and_retain_pdf_text(grade_file):
-    reader = PdfReader(grade_file)
-    pdf_text = []
-    section_tag_indices = []
+def extract_pdf_text(pdf):
+    from PyPDF2 import PdfReader
+    reader = PdfReader(pdf)
+    pdf_text_list = []
     for page_number in range(len(reader.pages)):
         page = reader.pages[page_number]
         text = page.extract_text().split()
-        pdf_text.extend(text)
-    for i, text in enumerate(pdf_text):
+        pdf_text_list.extend(text)
+    return pdf_text_list
+
+def is_section_tag(section_tag):
+    from Utils.constants import SECTION_PATTERN
+    import re
+    return re.fullmatch(SECTION_PATTERN, section_tag)
+
+def get_section_tag_indices(text_list):
+    section_tag_indices = []
+    for i, text in enumerate(text_list):
         if is_section_tag(text):
             section_tag_indices.append(i)
-    return section_tag_indices, pdf_text
+    return section_tag_indices
+
+def populate_section_document(pdf_text, section_tag_index, semester, year, college, pdf_type):
+    section_tag = pdf_text[section_tag_index]
+    department, course, section = parse_section_tag(section_tag)
+    grades = get_section_grades(section_tag_index, pdf_text, pdf_type)
+    professor = get_professor_entry(pdf_text, section_tag_index, pdf_type)
+    section_id = department + course + section + semester + year + college # Galveston and Qatar section id collisions fixed by appending college to id, also helps with identifying which pdf the section is from
+    section_document = {
+        '_id': section_id,
+        "department": department,
+        "course": course,
+        "semester": semester,
+        "year": year,
+        "section": section,
+        "professor": professor,
+        "grades": grades
+    }
+    return section_document
 
 
-def populate_section_info(section_tag_indices, pdf_text, semester, year, section_documents_list, college="", pdf_type="NEW"):
-    for i, section_tag_index in enumerate(section_tag_indices):
-        section_tag = pdf_text[section_tag_index]
-        department, course, section = parse_section_tag(section_tag)
-        grades = set_grades_from_pdf(section_tag_index, pdf_text, pdf_type)
-        professor = get_professor_entry(pdf_text, section_tag_index, pdf_type)
-        # Galveston and Qatar section id collisions fixed by appending GV and QT
-        if (college == "GV" or college == "QT"):
-            section_id = department + course + section + semester + year + college
-        else:
-            section_id = department + course + section + semester + year + college
-        section_documents_list.append(
-            {
-                '_id': section_id,
-                "department": department,
-                "course": course,
-                "semester": semester,
-                "year": year,
-                "section": section,
-                "professor": professor,
-                "grades": grades
-            }
-        )
-    return section_documents_list
-
-
-def grade_file_follows_format(grade_file):
-    from Utils.constants import FILE_PATTERN
-    return re.search(FILE_PATTERN, grade_file)
-
-
-def get_college_from_file(file_name):
-    college = file_name[5:7]
-    return college
-
-
-def is_old_pdf(year, semester):
+def is_old_pdf(semester, year):
     if int(year) < 2016:
         return True
     if int(year) == 2016 and semester == "SPRING":
@@ -243,3 +206,26 @@ def is_old_pdf(year, semester):
     if int(year) == 2016 and semester == "SUMMER":
         return True
     return False
+
+
+def get_section_documents(file):
+    section_documents = []
+    file_name = get_file_pattern(file)
+    pdf_text_list = extract_pdf_text(file)
+    section_tag_indices = get_section_tag_indices(pdf_text_list)
+    semester, year, college = get_semester_year_college(file_name)
+
+    beginning_text = pdf_text_list[0:50]
+    if semester not in beginning_text or year not in beginning_text:
+        raise Exception("Semester", semester, "and year", year, "mismatch")
+
+    if is_old_pdf(semester, year):
+        pdf_type = "OLD"
+    else:
+        pdf_type = "NEW"
+    
+    for section_tag_index in section_tag_indices:
+        section_document = populate_section_document(pdf_text_list, section_tag_index, semester, year, college, pdf_type)
+        section_documents.append(section_document)
+        
+    return section_documents
