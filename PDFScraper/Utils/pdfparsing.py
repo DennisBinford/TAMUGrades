@@ -114,9 +114,8 @@ def get_professor_entry(text_list, section_tag_index, pdf_type="NEW", in_loop_fi
                 professor = professor + " " + text
             loop_exit_condition += 1
         return professor
-
-
-def get_section_grades_list(section_tag_index, pdf_text, pdf_type="NEW"):
+    
+def extract_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
     if pdf_type == "OLD":
         counter = 1
         percent_location = 0
@@ -147,27 +146,36 @@ def get_section_grades_list(section_tag_index, pdf_text, pdf_type="NEW"):
         U = int(pdf_text[section_tag_index+14])
         X = int(pdf_text[section_tag_index+15])
         Q = int(pdf_text[section_tag_index+16])
-    GPA = round((A * 4.0 + B * 3.0 + C * 2.0 + D * 1.0) / (A+B+C+D+F), 3) #FIXME: Polish this!
-    Q_percent = round(Q / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
-    A_percent = round(A / (A+B+C+D+F+I+S+U+X+Q) * 100, 2) 
-    AB_percent = round((A+B) / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
-    pass_percent = round((A+B+C) / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
+    return A, B, C, D, F, I, S, U, X, Q
+
+def get_extra_grade_info(A, B, C, D, F, I, S, U, X, Q):
+    GPA = round((A * 4.0 + B * 3.0 + C * 2.0 + D * 1.0) / (A+B+C+D+F), 3)
+    Q_PERCENT = round(Q / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
+    A_PERCENT = round(A / (A+B+C+D+F+I+S+U+X+Q) * 100, 2) 
+    B_PERCENT = round((A+B) / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
+    C_PERCENT = round((A+B+C) / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
+    return GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT
+
+
+def set_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
+    A, B, C, D, F, I, S, U, X, Q = extract_grades_from_pdf(section_tag_index, pdf_text, pdf_type)
+    GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT = get_extra_grade_info(A, B, C, D, F, I, S, U, X, Q)
     grades = {
-        "A" : A,
-        "B" : B,
-        "C" : C,
-        "D" : D,
-        "F" : F,
-        "I" : I,
-        "S" : S,
-        "U" : U,
-        "X" : X,
-        "Q" : Q,
-        "GPA" : GPA,
-        "Q_drop_percentage" : Q_percent,
-        "A_percentage" : A_percent,
-        "B_and_above_percentage" : AB_percent,
-        "pass_percentage" : pass_percent
+        "a" : A,
+        "b" : B,
+        "c" : C,
+        "d" : D,
+        "f" : F,
+        "i" : I,
+        "s" : S,
+        "u" : U,
+        "x" : X,
+        "q" : Q,
+        "gpa" : GPA,
+        "q_percent" : Q_PERCENT,
+        "a_percent" : A_PERCENT,
+        "b_percent" : B_PERCENT,
+        "c_percent" : C_PERCENT
     }
     return grades
 
@@ -190,7 +198,7 @@ def populate_section_info(section_tag_indices, pdf_text, semester, year, section
     for i, section_tag_index in enumerate(section_tag_indices):
         section_tag = pdf_text[section_tag_index]
         department, course, section = parse_section_tag(section_tag)
-        grades = get_section_grades_list(section_tag_index, pdf_text, pdf_type)
+        grades = set_grades_from_pdf(section_tag_index, pdf_text, pdf_type)
         professor = get_professor_entry(pdf_text, section_tag_index, pdf_type)
         # Galveston and Qatar section id collisions fixed by appending GV and QT
         if (college == "GV" or college == "QT"):

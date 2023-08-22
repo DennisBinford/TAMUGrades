@@ -1,25 +1,20 @@
-import os
-import glob
-import time
-
-from databaselink import MONGODB_URI
-from Utils.constants import SECTION_PATTERN, DATABASE_NAME, PROCESS_FILE_PATH, START_TIME, VALID_SEMESTERS, VALID_YEARS
-from Utils.pymongo import get_mongodb_collection
-from Utils.parsing import *
-
 if __name__ == "__main__":
-
-    collection = get_mongodb_collection(
-        "TAMUGrades", "Dev", MONGODB_URI)
+    import os, glob, time
+    from Utils.constants import MONGODB_URI, DATABASE_NAME, SECTION_COLLECTION_NAME, PROCESS_FILE_PATH, START_TIME, VALID_SEMESTERS, VALID_YEARS
+    from Utils.database import get_mongodb_collection
+    from Utils.pdfparsing import *
+    
+    SECTION_COLLECTION = get_mongodb_collection(
+        DATABASE_NAME, SECTION_COLLECTION_NAME, MONGODB_URI)
     grade_pdfs = glob.glob(os.path.join(PROCESS_FILE_PATH, '*.pdf'))
     section_documents_list = []
     file_count = 0
     skip_file = False
 
     for grade_pdf in grade_pdfs:
-        # print(time.time() - START_TIME)
+        print(time.time() - START_TIME)
         file_count += 1
-        # print(file_count, ":", grade_pdf)
+        print(file_count, ":", grade_pdf)
         section_tag_indices, pdf_text = get_section_tag_indices_and_retain_pdf_text(
             grade_pdf)
         if grade_file_follows_format(grade_pdf):
@@ -43,7 +38,7 @@ if __name__ == "__main__":
         if (file_count % 10 == 0):
             try:
                 print(time.time() - START_TIME)
-                collection.insert_many(section_documents_list)
+                SECTION_COLLECTION.insert_many(section_documents_list)
                 section_documents_list = []
                 print("Mass wrote successfully")
                 # for grade_pdf in grade_pdfs:
@@ -53,7 +48,7 @@ if __name__ == "__main__":
                 print("ALERT: collection entry having problems")
     try:
         print(time.time() - START_TIME)
-        collection.insert_many(section_documents_list)
+        SECTION_COLLECTION.insert_many(section_documents_list)
         section_documents_list = []
         print("Mass wrote successfully")
         # for grade_pdf in grade_pdfs:
