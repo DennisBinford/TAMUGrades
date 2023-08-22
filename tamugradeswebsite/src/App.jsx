@@ -64,22 +64,12 @@ function App() {
           style={{ width: '12%' }}/>
           <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
           style={{ width: '12%' }}/>
-          <Column field="grades.0" header="A" sortable
+          <Column field="grades.gpa" header="GPA" sortable
           style={{ width: '4%' }}/>
-          <Column field="grades.1" header="B" sortable
+          <Column field="grades.a_percent" header="A %" sortable
           style={{ width: '4%' }}/>
-          <Column field="grades.2" header="C" sortable
+          <Column field="grades.q_percent" header="Q Drop %" sortable
           style={{ width: '4%' }}/>
-          <Column field="grades.3" header="D" sortable
-          style={{ width: '4%' }}/>
-          <Column field="grades.4" header="F" sortable
-          style={{ width: '4%' }}/>
-          <Column field="grades.8" header="Q" sortable
-          style={{ width: '4%' }}/>
-          <Column field="semester" header="Semester" sortable
-          style={{ width: '8%' }}/>
-          <Column field="year" header="Year" sortable
-          style={{ width: '8%' }}/>
         </DataTable>
 
 

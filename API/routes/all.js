@@ -35,16 +35,11 @@ router.get("/", async (req, res) => {
         const total = await Section.countDocuments(
             {$and : findBy})
 
-        const departments = await Section.distinct('department')
-        const professors = await Section.distinct('professor')
-
         const response = {
             error: false,
             total,
             page: page + 1,
             limit,
-            departments,
-            professors,
             sections
         }
 
