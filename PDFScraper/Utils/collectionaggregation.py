@@ -39,7 +39,6 @@ def get_grade_categories(document):
 
 def populate_grades(entry, A, B, C, D, F, I, S, U, X, Q, GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT):
     entry["grades"] = {
-<<<<<<< HEAD
         "a" : A,
         "b" : B,
         "c" : C,
@@ -55,23 +54,6 @@ def populate_grades(entry, A, B, C, D, F, I, S, U, X, Q, GPA, Q_PERCENT, A_PERCE
         "a_percent" : A_PERCENT,
         "b_percent" : B_PERCENT,
         "c_percent" : C_PERCENT
-=======
-        "a": A,
-        "b": B,
-        "c": C,
-        "d": D,
-        "f": F,
-        "i": I,
-        "s": S,
-        "i": U,
-        "x": X,
-        "q": Q,
-        "gpa": GPA,
-        "q_percent": Q_PERCENT,
-        "a_percent": A_PERCENT,
-        "b_percent": B_PERCENT,
-        "c_percent": C_PERCENT
->>>>>>> 44911bf815af2bc9cb47ad159b68bc08d676f72e
     }
     return entry
 
