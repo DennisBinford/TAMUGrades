@@ -17,6 +17,7 @@ def get_semester_and_year(text, valid_semesters, valid_years, from_file_name=Fal
             print(
                 "ALERT: semester indicator is not valid, the fifth number in the filename should be 1, 2, or 3")
         return semester, year
+    #
     if not isinstance(text, list) and not isinstance(text, str):
         raise TypeError(
             "Text passed to get semester and year must be a list or a string")
@@ -132,8 +133,8 @@ def extract_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
                 I = int(pdf_text[section_tag_index+percent_location+7])
                 S = int(pdf_text[section_tag_index+percent_location+8])
                 U = int(pdf_text[section_tag_index+percent_location+9])
-                X = int(pdf_text[section_tag_index+percent_location+10])
-                Q = int(pdf_text[section_tag_index+percent_location+11])
+                Q = int(pdf_text[section_tag_index+percent_location+10])
+                X = int(pdf_text[section_tag_index+percent_location+11])
                 break
             counter += 1
     else:
@@ -145,12 +146,12 @@ def extract_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
         I = int(pdf_text[section_tag_index+12])
         S = int(pdf_text[section_tag_index+13])
         U = int(pdf_text[section_tag_index+14])
-        X = int(pdf_text[section_tag_index+15])
-        Q = int(pdf_text[section_tag_index+16])
-    return A, B, C, D, F, I, S, U, X, Q
+        Q = int(pdf_text[section_tag_index+15])
+        X = int(pdf_text[section_tag_index+16])
+    return A, B, C, D, F, I, S, U, Q, X
 
 
-def get_extra_grade_info(A, B, C, D, F, I, S, U, X, Q):
+def get_extra_grade_info(A, B, C, D, F, I, S, U, Q, X):
     GPA = round((A * 4.0 + B * 3.0 + C * 2.0 + D * 1.0) / (A+B+C+D+F), 3)
     Q_PERCENT = round(Q / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
     A_PERCENT = round(A / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
@@ -160,10 +161,10 @@ def get_extra_grade_info(A, B, C, D, F, I, S, U, X, Q):
 
 
 def set_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
-    A, B, C, D, F, I, S, U, X, Q = extract_grades_from_pdf(
+    A, B, C, D, F, I, S, U, Q, X = extract_grades_from_pdf(
         section_tag_index, pdf_text, pdf_type)
     GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT = get_extra_grade_info(
-        A, B, C, D, F, I, S, U, X, Q)
+        A, B, C, D, F, I, S, U, Q, X)
     grades = {
         "a": A,
         "b": B,
@@ -173,8 +174,8 @@ def set_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
         "i": I,
         "s": S,
         "u": U,
-        "x": X,
         "q": Q,
+        "x": X,
         "gpa": GPA,
         "q_percent": Q_PERCENT,
         "a_percent": A_PERCENT,
@@ -235,10 +236,10 @@ def get_college_from_file(file_name):
 
 
 def is_old_pdf(year, semester):
-    if (int(year) < 2016):
+    if int(year) < 2016:
         return True
-    if (int(year) == 2016 and semester == "SPRING"):
+    if int(year) == 2016 and semester == "SPRING":
         return True
-    if (int(year) == 2016 and semester == "SUMMER"):
+    if int(year) == 2016 and semester == "SUMMER":
         return True
     return False

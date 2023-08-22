@@ -17,8 +17,8 @@ def get_aggregation(get_collection_name, filter):
             'i': {'$sum': '$grades.i'},
             's': {'$sum': '$grades.s'},
             'u': {'$sum': '$grades.u'},
-            'x': {'$sum': '$grades.x'},
-            'q': {'$sum': '$grades.q'}
+            'q': {'$sum': '$grades.q'},
+            'x': {'$sum': '$grades.x'}
         }}])
     return aggregation
 
@@ -32,12 +32,12 @@ def get_grade_categories(document):
     I = document["i"]
     S = document["s"]
     U = document["u"]
-    X = document["x"]
     Q = document["q"]
-    return A, B, C, D, F, I, S, U, X, Q
+    X = document["x"]
+    return A, B, C, D, F, I, S, U, Q, X
 
 
-def populate_grades(entry, A, B, C, D, F, I, S, U, X, Q, GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT):
+def populate_grades(entry, A, B, C, D, F, I, S, U, Q, X, GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT):
     entry["grades"] = {
         "a" : A,
         "b" : B,
@@ -47,8 +47,8 @@ def populate_grades(entry, A, B, C, D, F, I, S, U, X, Q, GPA, Q_PERCENT, A_PERCE
         "i" : I,
         "s" : S,
         "u" : U,
-        "x" : X,
         "q" : Q,
+        "x" : X,
         "gpa" : GPA,
         "q_percent" : Q_PERCENT,
         "a_percent" : A_PERCENT,
@@ -116,13 +116,13 @@ def aggregate_collection(get_collection_name, set_collection_name, filter, docum
     entries = []
 
     for document in aggregation:
-        A, B, C, D, F, I, S, U, X, Q = get_grade_categories(document)
+        A, B, C, D, F, I, S, U, Q, X = get_grade_categories(document)
         GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT = get_extra_grade_info(
-            A, B, C, D, F, I, S, U, X, Q)
+            A, B, C, D, F, I, S, U, Q, X)
         entry = populate_document_type(document, document_type)
         # FIXME: may want to make another function that merges this, if not note that entry is a two step process where the second step always happens
         entry = populate_grades(entry, A, B, C, D, F, I, S, U,
-                                X, Q, GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT)
+                                Q, X, GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT)
         entries.append(entry)
     SET_COLLECTION.insert_many(entries)
     entries = []
