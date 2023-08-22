@@ -1,9 +1,11 @@
 if __name__ == "__main__":
-    import os, glob, time
+    import os
+    import glob
+    import time
     from Utils.constants import MONGODB_URI, DATABASE_NAME, SECTION_COLLECTION_NAME, PROCESS_FILE_PATH, START_TIME, VALID_SEMESTERS, VALID_YEARS
     from Utils.database import get_mongodb_collection
     from Utils.pdfparsing import *
-    
+
     SECTION_COLLECTION = get_mongodb_collection(
         DATABASE_NAME, SECTION_COLLECTION_NAME, MONGODB_URI)
     grade_pdfs = glob.glob(os.path.join(PROCESS_FILE_PATH, '*.pdf'))
@@ -19,7 +21,8 @@ if __name__ == "__main__":
             grade_pdf)
         if grade_file_follows_format(grade_pdf):
             file_format_match = grade_file_follows_format(grade_pdf)
-            file_name = file_format_match.group(0) # to get the whole matching part of the file name
+            # to get the whole matching part of the file name
+            file_name = file_format_match.group(0)
             pdf_semester, pdf_year = get_semester_and_year(
                 pdf_text, VALID_SEMESTERS, VALID_YEARS)
             semester, year = get_semester_and_year(
@@ -56,4 +59,3 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
         print("ALERT: collection entry having problems")
-
