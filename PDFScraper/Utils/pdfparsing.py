@@ -114,7 +114,8 @@ def get_professor_entry(text_list, section_tag_index, pdf_type="NEW", in_loop_fi
                 professor = professor + " " + text
             loop_exit_condition += 1
         return professor
-    
+
+
 def extract_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
     if pdf_type == "OLD":
         counter = 1
@@ -148,34 +149,37 @@ def extract_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
         Q = int(pdf_text[section_tag_index+16])
     return A, B, C, D, F, I, S, U, X, Q
 
+
 def get_extra_grade_info(A, B, C, D, F, I, S, U, X, Q):
     GPA = round((A * 4.0 + B * 3.0 + C * 2.0 + D * 1.0) / (A+B+C+D+F), 3)
     Q_PERCENT = round(Q / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
-    A_PERCENT = round(A / (A+B+C+D+F+I+S+U+X+Q) * 100, 2) 
+    A_PERCENT = round(A / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
     B_PERCENT = round((A+B) / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
     C_PERCENT = round((A+B+C) / (A+B+C+D+F+I+S+U+X+Q) * 100, 2)
     return GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT
 
 
 def set_grades_from_pdf(section_tag_index, pdf_text, pdf_type="NEW"):
-    A, B, C, D, F, I, S, U, X, Q = extract_grades_from_pdf(section_tag_index, pdf_text, pdf_type)
-    GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT = get_extra_grade_info(A, B, C, D, F, I, S, U, X, Q)
+    A, B, C, D, F, I, S, U, X, Q = extract_grades_from_pdf(
+        section_tag_index, pdf_text, pdf_type)
+    GPA, Q_PERCENT, A_PERCENT, B_PERCENT, C_PERCENT = get_extra_grade_info(
+        A, B, C, D, F, I, S, U, X, Q)
     grades = {
-        "a" : A,
-        "b" : B,
-        "c" : C,
-        "d" : D,
-        "f" : F,
-        "i" : I,
-        "s" : S,
-        "u" : U,
-        "x" : X,
-        "q" : Q,
-        "gpa" : GPA,
-        "q_percent" : Q_PERCENT,
-        "a_percent" : A_PERCENT,
-        "b_percent" : B_PERCENT,
-        "c_percent" : C_PERCENT
+        "a": A,
+        "b": B,
+        "c": C,
+        "d": D,
+        "f": F,
+        "i": I,
+        "s": S,
+        "u": U,
+        "x": X,
+        "q": Q,
+        "gpa": GPA,
+        "q_percent": Q_PERCENT,
+        "a_percent": A_PERCENT,
+        "b_percent": B_PERCENT,
+        "c_percent": C_PERCENT
     }
     return grades
 
