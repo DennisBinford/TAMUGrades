@@ -22,7 +22,8 @@ if __name__ == "__main__":
             section_documents_list.extend(section_documents)
         except Exception as e:
             print(e)
-            os.replace(grade_pdf, FAIL_FILE_PATH + "/" + grade_pdf[-14:-1] + 'f') # FIXME: polish this up
+            os.replace(grade_pdf, FAIL_FILE_PATH + "/" +
+                       grade_pdf[-14:-1] + 'f')  # FIXME: polish this up
         if (file_count % 100 == 0):
             try:
                 print(time.time() - START_TIME)

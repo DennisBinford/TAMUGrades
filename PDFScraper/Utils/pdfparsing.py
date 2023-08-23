@@ -5,6 +5,7 @@ def get_file_pattern(grade_file):
     file_pattern = file_pattern_match.group(0)
     return file_pattern
 
+
 def get_semester_year_college(file_pattern):
     year = file_pattern[0:4]
     college = file_pattern[5:7]
@@ -157,6 +158,7 @@ def get_section_grades(section_tag_index, pdf_text, pdf_type="NEW"):
     }
     return grades
 
+
 def extract_pdf_text(pdf):
     from PyPDF2 import PdfReader
     reader = PdfReader(pdf)
@@ -167,10 +169,12 @@ def extract_pdf_text(pdf):
         pdf_text_list.extend(text)
     return pdf_text_list
 
+
 def is_section_tag(section_tag):
     from Utils.constants import SECTION_PATTERN
     import re
     return re.fullmatch(SECTION_PATTERN, section_tag)
+
 
 def get_section_tag_indices(text_list):
     section_tag_indices = []
@@ -179,12 +183,14 @@ def get_section_tag_indices(text_list):
             section_tag_indices.append(i)
     return section_tag_indices
 
+
 def populate_section_document(pdf_text, section_tag_index, semester, year, college, pdf_type):
     section_tag = pdf_text[section_tag_index]
     department, course, section = parse_section_tag(section_tag)
     grades = get_section_grades(section_tag_index, pdf_text, pdf_type)
     professor = get_professor_entry(pdf_text, section_tag_index, pdf_type)
-    section_id = department + course + section + semester + year + college # Galveston and Qatar section id collisions fixed by appending college to id, also helps with identifying which pdf the section is from
+    # Galveston and Qatar section id collisions fixed by appending college to id, also helps with identifying which pdf the section is from
+    section_id = department + course + section + semester + year + college
     section_document = {
         '_id': section_id,
         "department": department,
@@ -223,9 +229,10 @@ def get_section_documents(file):
         pdf_type = "OLD"
     else:
         pdf_type = "NEW"
-    
+
     for section_tag_index in section_tag_indices:
-        section_document = populate_section_document(pdf_text_list, section_tag_index, semester, year, college, pdf_type)
+        section_document = populate_section_document(
+            pdf_text_list, section_tag_index, semester, year, college, pdf_type)
         section_documents.append(section_document)
-        
+
     return section_documents
