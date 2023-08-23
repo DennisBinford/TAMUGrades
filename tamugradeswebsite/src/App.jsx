@@ -1,5 +1,6 @@
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
+import { Dropdown } from 'primereact/dropdown';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 
@@ -9,6 +10,7 @@ import axios from 'axios';
 function App() {
 
   const BASE_API_URL = "https://api.tamugrades.com"
+  const [professor, setProfessor] = useState('');
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [departmentFilter, setDepartmentFilter] = useState('');
@@ -22,6 +24,7 @@ function App() {
         .then(response => {
           response.data.sections.add_field = "added field"
           setData(response.data.sections)
+          setProfessor(response.data.professor)
           setTotal(response.data.total)
         })
         .catch(() => {
@@ -50,7 +53,7 @@ function App() {
           e.filters.department.value ? setDepartmentFilter(e.filters.department.value) : setDepartmentFilter('');
           e.filters.course.value ? setCourseFilter(e.filters.course.value) : setCourseFilter('');
           e.filters.section.value ? setDepartmentFilter(e.filters.section.value) : setSectionFilter('');
-          e.filters.professor.value ? setProfessorFilter(e.filters.professor.value) : setProfessorFilter('');
+          // e.filters.professor.value ? setProfessorFilter(e.filters.professor.value) : setProfessorFilter('');
         }}
         globalFilterFields={['department', 'course', 'section', 'professor']}
         emptyMessage="No sections found."
@@ -62,18 +65,20 @@ function App() {
           style={{ width: '12%' }}/>
           <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"
           style={{ width: '12%' }}/>
-          <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
+          <Column field="professor" header="Professor" sortable filter filterElement={<Dropdown value={selectedProfessor} onChange={(e) => setProfessorFilter(e.value)} options={data} optionLabel="professor" 
+          editable placeholder="Select a City" className="w-full md:w-14rem" />} filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
           style={{ width: '12%' }}/>
-          <Column field="grades.gpa" header="GPA" sortable
+          <Column field="grades.0.gpa" header="GPA" sortable
           style={{ width: '4%' }}/>
-          <Column field="grades.a_percent" header="A %" sortable
+          <Column field="grades.0.a_percent" header="A %" sortable
           style={{ width: '4%' }}/>
-          <Column field="grades.q_percent" header="Q Drop %" sortable
+          <Column field="grades.0.q_percent" header="Q Drop %" sortable
           style={{ width: '4%' }}/>
         </DataTable>
 
 
       </div>
+
     )
       } catch {
         <h1>Refresh page, caught an error</h1>
