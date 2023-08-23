@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 
-const sectionSchema = new mongoose.Schema({
+const professorSchema = new mongoose.Schema({
     _id: {
+        type: String,
+        required: true
+    },
+    professor: {
         type: String,
         required: true
     },
@@ -13,26 +17,18 @@ const sectionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    semester: {
-        type: String,
-        required: true
-    },
     year: {
         type: String,
         required: true
     },
-    section: {
-        type: String,
-        required: true
-    },
-    professor: {
+    type: {
         type: String,
         required: true
     },
     grades: {
         type: Object,
         required: true
-    },
+    }
 });
 
-module.exports = mongoose.model('Section', sectionSchema, 'Sections');
+module.exports = mongoose.model('Professor', professorSchema, 'Professors');
