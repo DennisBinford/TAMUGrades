@@ -53,7 +53,7 @@ function App() {
           e.filters.department.value ? setDepartmentFilter(e.filters.department.value) : setDepartmentFilter('');
           e.filters.course.value ? setCourseFilter(e.filters.course.value) : setCourseFilter('');
           e.filters.section.value ? setDepartmentFilter(e.filters.section.value) : setSectionFilter('');
-          // e.filters.professor.value ? setProfessorFilter(e.filters.professor.value) : setProfessorFilter('');
+          e.filters.professor.value ? setProfessorFilter(e.filters.professor.value) : setProfessorFilter('');
         }}
         globalFilterFields={['department', 'course', 'section', 'professor']}
         emptyMessage="No sections found."
