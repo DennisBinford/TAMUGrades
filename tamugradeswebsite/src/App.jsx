@@ -69,7 +69,7 @@ function App() {
           style={{ width: '12%' }}/>
           <Column field="grades.gpa" header="GPA" sortable
           style={{ width: '4%' }}/>
-          <Column field="grades.a_percent" header="A %" sortable
+          <Column field="grades.a" header="A %" sortable
           style={{ width: '4%' }}/>
           <Column field="grades.q_percent" header="Q Drop %" sortable
           style={{ width: '4%' }}/>
