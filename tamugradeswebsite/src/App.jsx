@@ -47,7 +47,7 @@ function App() {
         filterDisplay="row"
         filter
         resizableColumns
-        style={{ minWidth: '67rem' }}
+        style={{ minWidth: '65rem' }}
         // filterHeaderStyle={{ minWidth: '100rem' }}
         onFilter={(e) => {
           e.filters.department.value ? setDepartmentFilter(e.filters.department.value) : setDepartmentFilter('');
@@ -58,11 +58,11 @@ function App() {
         globalFilterFields={['department', 'course', 'section', 'professor']}
         emptyMessage="No sections found."
         >
-          <Column field="department" header="Department" sortable filter filterMatchMode="contains" filterMaxLength={4} filterPlaceholder="AERO"
-          />
+          <Column field="department" header="Department" sortable filter filterMatchMode="contains" filterMaxLength={4} filterPlaceholder="AERO"/>
           <Column field="course" header="Course" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="201"/>
           <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"/>
-          <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"/>
+          <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
+          style={{ width: '20%' }}/>
           <Column field="grades.gpa" header="GPA" sortable/>
           <Column field="grades.a_percent" header="A %" sortable/>
           <Column field="grades.q_percent" header="Q Drop %" sortable/>
