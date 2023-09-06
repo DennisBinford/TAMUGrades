@@ -47,7 +47,7 @@ function App() {
         filterDisplay="row"
         filter
         resizableColumns
-        style={{ minWidth: '70rem' }}
+        style={{ minWidth: '67rem' }}
         // filterHeaderStyle={{ minWidth: '100rem' }}
         onFilter={(e) => {
           e.filters.department.value ? setDepartmentFilter(e.filters.department.value) : setDepartmentFilter('');
@@ -59,20 +59,13 @@ function App() {
         emptyMessage="No sections found."
         >
           <Column field="department" header="Department" sortable filter filterMatchMode="contains" filterMaxLength={4} filterPlaceholder="AERO"
-          style={{ width: '12%' }}
           />
-          <Column field="course" header="Course" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="201"
-          style={{ width: '12%' }}/>
-          <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"
-          style={{ width: '12%' }}/>
-          <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
-          style={{ width: '12%' }}/>
-          <Column field="grades.gpa" header="GPA" sortable
-          style={{ width: '4%' }}/>
-          <Column field="grades.a_percent" header="A %" sortable
-          style={{ width: '4%' }}/>
-          <Column field="grades.q_percent" header="Q Drop %" sortable
-          style={{ width: '4%' }}/>
+          <Column field="course" header="Course" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="201"/>
+          <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"/>
+          <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"/>
+          <Column field="grades.gpa" header="GPA" sortable/>
+          <Column field="grades.a_percent" header="A %" sortable/>
+          <Column field="grades.q_percent" header="Q Drop %" sortable/>
         </DataTable>
 
 
