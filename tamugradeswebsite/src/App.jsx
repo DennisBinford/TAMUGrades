@@ -47,7 +47,7 @@ function App() {
         filterDisplay="row"
         filter
         resizableColumns
-        // style={{ minWidth: '100rem' }}
+        style={{ minWidth: '70rem' }}
         // filterHeaderStyle={{ minWidth: '100rem' }}
         onFilter={(e) => {
           e.filters.department.value ? setDepartmentFilter(e.filters.department.value) : setDepartmentFilter('');
