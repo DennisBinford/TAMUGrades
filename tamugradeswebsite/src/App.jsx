@@ -41,7 +41,6 @@ function App() {
         rows={100}
         rowsPerPageOptions={[5,10,25,50,100]}
         showGridlines
-        removableSort
         scrollable 
         scrollHeight="1000px"
         filterDisplay="row"
