@@ -61,9 +61,9 @@ function App() {
           <Column field="department" header="Department" sortable filter filterMatchMode="contains" filterMaxLength={4} filterPlaceholder="AERO"
           style={{ width: '20%' }}/>
           <Column field="course" header="Course" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="201"
-          style={{ width: '10%' }}/>
+          style={{ width: '17%' }}/>
           <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"
-          style={{ width: '20%' }}/>
+          style={{ width: '17%' }}/>
           <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
           style={{ width: '20%' }}/>
           <Column field="grades.gpa" header="GPA" sortable/>
