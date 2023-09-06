@@ -34,7 +34,7 @@ function App() {
   try {
     return (
       <div className="App">
-        <DataTable value={data} sortMode="multiple" tableStyle={{ minWidth: '100rem' }}
+        <DataTable value={data} sortMode="multiple"
         header="TAMUGrades"
         totalRecords={total}
         paginator
@@ -65,14 +65,13 @@ function App() {
           style={{ width: '12%' }}/>
           <Column field="section" header="Section" sortable filter filterMatchMode="contains" filterMaxLength={3} filterPlaceholder="500"
           style={{ width: '12%' }}/>
-          <Column field="professor" header="Professor" sortable filter filterElement={<Dropdown value={selectedProfessor} onChange={(e) => setProfessorFilter(e.value)} options={data} optionLabel="professor" 
-          editable placeholder="Select a City" className="w-full md:w-14rem" />} filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
+          <Column field="professor" header="Professor" sortable filter filterMatchMode="contains" filterMaxLength={100} filterPlaceholder="Smith"
           style={{ width: '12%' }}/>
-          <Column field="grades.0.gpa" header="GPA" sortable
+          <Column field="grades.gpa" header="GPA" sortable
           style={{ width: '4%' }}/>
-          <Column field="grades.0.a_percent" header="A %" sortable
+          <Column field="grades.a_percent" header="A %" sortable
           style={{ width: '4%' }}/>
-          <Column field="grades.0.q_percent" header="Q Drop %" sortable
+          <Column field="grades.q_percent" header="Q Drop %" sortable
           style={{ width: '4%' }}/>
         </DataTable>
 
